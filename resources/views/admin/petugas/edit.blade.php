@@ -1,7 +1,7 @@
 @extends('admin/layout.master')
 
-@section('title','Petugas')
-@section('title2','tambah')
+@section('title','Admin')
+@section('title2','edit-admin')
 @section('petugas','active')
 @section('konten')
 
@@ -71,7 +71,6 @@
               </label>
               <select name="level" class="form-control">
                   <option value="admin" class="form-control">Admin</option>
-                  <option value="petugas" class="form-control">Petugas</option>
               </select>
             </div>
           </div>

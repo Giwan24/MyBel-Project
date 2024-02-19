@@ -4,23 +4,29 @@ namespace App\Http\Controllers\MyBel;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Produk;
+use DB;
 
 class ProdukController extends Controller
 {
     private function _validation(Request $request){
 	    $validation = $request->validate([
-	        'nama' => 'required|max:100',
-            'nisn' => 'required|max:100',
-            'nis' => 'required|max:100',
-            'alamat' => 'required',
+	        'id_produuct' => 'required|max:100',
+            'jenis' => 'required|max:100',
+            'nama_produk' => 'required|max:100',
+            'material' => 'required',
+            'dimensi' => 'required',
+            'warna_tersedia' => 'required',
+            'harga' => 'required',
 	    ],
 	    [
-	        'nama.required' => 'Harus diisi',
-	        'nama.max' => 'Jangan lebih dari 100 huruf',
-	        'nisn.required' => 'Harus diisi',
-			'nisn.max' => 'Jangan lebih dari 50 huruf',
-			'nis.required' => 'Harus diisi',
-            'alamat.required' => 'Harus diisi',
+            'id_produuct.required' => 'Harus diisi',
+            'jenis.required' => 'Harus diisi',
+            'nama_produk.required' => 'Harus diisi',
+            'material.required' => 'Harus diisi',
+            'dimensi.required' => 'Harus diisi',
+            'warna_tersedia.required' => 'Harus diisi',
+            'harga.required' => 'Harus diisi',
 	    ]
 	);
 	}
@@ -32,29 +38,50 @@ class ProdukController extends Controller
      */
     public function index(Request $request)
     {
-        $data = DB::table('tbl_siswa')
-        ->latest()
-        ->where('nama','like',"%{$request->keyword}%")
-        ->join('tbl_kelas', function($join){
-            $join->on('tbl_siswa.kelas_id','=','tbl_kelas.id_kelas');
-        })->orWhere('nama_kelas','like',"%{$request->keyword}%")->orderBy('kelas_id','asc')->orderBy('nama','asc')->paginate(5);
-        return view('admin/siswa.index',['data'=>$data]);
+        $data = Produk::latest()->orderBy('id','asc')->latest()
+                                ->where('nama_produk','like',"%{$request->keyword}%")
+                                ->orWhere('jenis','like',"%{$request->keyword}%")
+                                ->orWhere('id_product','like',"%{$request->keyword}%")
+                                ->orWhere('brand','like',"%{$request->keyword}%")
+                                ->orderBy('brand','asc')
+                                ->orderBy('id_product','asc')
+                                ->orderBy('jenis','asc')
+                                ->orderBy('nama_produk','asc')
+                                ->paginate(10);
+
+        return view('admin/mybel.index',['data'=>$data]);
     }
 
-    public function siswanunggak(Request $request)
+    public function home_index(Request $request)
     {
-        $data = DB::table('tbl_siswa')
-        ->where('ket','belum')
-        ->join('tbl_pembayaran', function($join){
-            $join->on('tbl_siswa.nisn','=','tbl_pembayaran.nisn_siswa');
-        })->join('tbl_spp', function($join){
-            $join->on('tbl_pembayaran.spp_id','=','tbl_spp.id_spp');
-        })->join('tbl_petugas', function($join){
-            $join->on('tbl_pembayaran.petugas_id','=','tbl_petugas.id_petugas');
-        })->join('tbl_kelas', function($join){
-            $join->on('tbl_siswa.kelas_id','=','tbl_kelas.id_kelas');
-        })->orderBy('nama','asc')->paginate(10);
-        return view('admin/transaksi.siswanunggak',['data'=>$data]);
+        $dataIndex = Produk::latest()->orderBy('id','asc')->latest()
+                            ->where('nama_produk','like',"%{$request->keyword}%")
+                            ->orWhere('jenis','like',"%{$request->keyword}%")
+                            ->orWhere('id_product','like',"%{$request->keyword}%")
+                            ->orWhere('brand','like',"%{$request->keyword}%")
+                            ->orderBy('brand','asc')
+                            ->orderBy('id_product','asc')
+                            ->orderBy('jenis','asc')
+                            ->orderBy('nama_produk','asc')
+                            ->paginate(3);
+                                
+        return view('admin.index', ['data' => $dataIndex]);
+    }
+
+    public function marketplace(Request $request)
+    {
+        $dataIndex = Produk::latest()->orderBy('id','asc')->latest()
+                            ->where('nama_produk','like',"%{$request->keyword}%")
+                            ->orWhere('jenis','like',"%{$request->keyword}%")
+                            ->orWhere('id_product','like',"%{$request->keyword}%")
+                            ->orWhere('brand','like',"%{$request->keyword}%")
+                            ->orderBy('brand','asc')
+                            ->orderBy('id_product','asc')
+                            ->orderBy('jenis','asc')
+                            ->orderBy('nama_produk','asc')
+                            ->paginate(10);
+                                
+        return view('admin.marketplace', ['data' => $dataIndex]);
     }
 
     /**
@@ -64,8 +91,7 @@ class ProdukController extends Controller
      */
     public function create()
     {
-        $data = DB::table('tbl_kelas')->get();
-        return view('admin/siswa.create',['data'=>$data]);
+        return view('admin/mybel.create');
     }
 
     /**
@@ -76,45 +102,20 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        $this->_validation($request);
-        DB::table('tbl_siswa')->insert([
-            'nisn'=>$request->nisn,
-            'nis'=>$request->nis,
-            'nama'=>$request->nama,
-            'kelas_id'=>$request->kelas,
-            'alamat'=>$request->alamat,
-            'no_telp'=>$request->notelp,
-            'password'=>bcrypt('password')
-        ]);
+        $data = new Produk(); // Instantiate a new Produk model
 
-        $now = date('Y-m-d');
-        $data = DB::table('tbl_spp')->get();
-        $bulan = Carbon::now('m');
-        $bulans = $bulan->isoFormat('M');
-        foreach ($data as $key) {
-            DB::table('tbl_pembayaran')->insert([
-                'petugas_id'=>Auth::guard('admin')->user()->id_petugas,
-                'nisn_siswa'=>$request->nisn,
-                'tahun_bayar'=>$key->tahun,
-                'spp_id'=>$key->id_spp,
-                'jumlah_bayar'=>$key->nominal,
-                'ket'=>'belum'
-            ]);
-        }
-        
+        $data->id_product = $request->id_product;
+        $data->brand = $request->brand;
+        $data->jenis = $request->jenis;
+        $data->nama_produk = $request->nama_produk;
+        $data->material = $request->material;
+        $data->dimensi = $request->dimensi;
+        $data->warna_tersedia = $request->warna_tersedia;
+        $data->harga = $request->harga;
+    
+        $data->save(); // Save the data to the database
 
-        return redirect('siswa')->with('message','Data berhasil ditambahkan');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return redirect('mybel')->with('message','Data berhasil ditambahkan');
     }
 
     /**
@@ -125,9 +126,8 @@ class ProdukController extends Controller
      */
     public function edit($id)
     {
-        $data = DB::table('tbl_siswa')->where('nisn',$id)->first();
-        $data_kelas = DB::table('tbl_kelas')->get();
-        return view('admin/siswa.edit',['data'=>$data,'kelas'=>$data_kelas]);
+        $data = Produk::where('id', $id)->first();
+        return view('admin/mybel.edit',['data'=>$data]);
     }
 
     /**
@@ -139,21 +139,18 @@ class ProdukController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->_validation($request);
-        DB::table('tbl_siswa')->where('nisn',$id)->update([
-            'nisn'=>$request->nisn,
-            'nis'=>$request->nis,
-            'nama'=>$request->nama,
-            'kelas_id'=>$request->kelas,
-            'alamat'=>$request->alamat,
-            'no_telp'=>$request->notelp,
+        Produk::where('id', $id)->update([
+            'id_product'=>$request->id_product,
+            'brand'=>$request->brand,
+            'jenis'=>$request->jenis,
+            'nama_produk'=>$request->nama_produk,
+            'material'=>$request->material,
+            'dimensi'=>$request->dimensi,
+            'warna_tersedia'=>$request->warna_tersedia,
+            'harga'=>$request->harga,
         ]);
 
-        DB::table('tbl_pembayaran')->where('nisn_siswa',$id)->update([
-            'nisn_siswa'=>$request->nisn
-        ]);
-
-        return redirect('siswa')->with('message','Data berhasil diubah');
+        return redirect('mybel')->with('message','Data berhasil diubah');
     }
 
     /**
@@ -162,64 +159,29 @@ class ProdukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_product)
     {
-        DB::table('tbl_siswa')->where('nisn',$id)->delete();
-        DB::table('tbl_pembayaran')->where('nisn_siswa',$id)->delete();
-        return redirect()->back()->with('message','data berhasil dihapus');
+        Produk::where('id_product', $id_product)->delete();
+        return redirect()->back()->with('message', 'Data berhasil dihapus');
     }
 
     public function history($id)
     {
-        $data = DB::table('tbl_siswa')->where('nisn',$id)
+        $data = DB::table('tbl_mybel')->where('nisn',$id)
         ->join('tbl_kelas', function($join){
-            $join->on('tbl_siswa.kelas_id','=','tbl_kelas.id_kelas');
+            $join->on('tbl_mybel.kelas_id','=','tbl_kelas.id_kelas');
         })->join('tbl_pembayaran', function($join){
-            $join->on('tbl_siswa.nisn','=','tbl_pembayaran.nisn_siswa');
+            $join->on('tbl_mybel.nisn','=','tbl_pembayaran.nisn_mybel');
         })->join('tbl_spp', function($join){
             $join->on('tbl_pembayaran.spp_id','=','tbl_spp.id_spp');
         })->where('ket','lunas')
         ->get();
-        return view('admin/siswa.history',['data'=>$data]);
+        return view('admin/mybel.history',['data'=>$data]);
    
-    }
-
-    public function historysiswa($id)
-    {
-        $data = DB::table('tbl_siswa')->where('nisn',$id)
-        ->join('tbl_kelas', function($join){
-            $join->on('tbl_siswa.kelas_id','=','tbl_kelas.id_kelas');
-        })->join('tbl_pembayaran', function($join){
-            $join->on('tbl_siswa.nisn','=','tbl_pembayaran.nisn_siswa');
-        })->join('tbl_spp', function($join){
-            $join->on('tbl_pembayaran.spp_id','=','tbl_spp.id_spp');
-        })->where('ket','lunas')
-        ->get();
-        return view('siswa.history',['data'=>$data]);
-   
-    }
-
-    public function login(Request $request)
-    {
-        if (Auth::guard('siswa')->attempt(['nisn' => $request->nisn, 'password' => $request->password])) {
-            // if successful, then redirect to their intended location
-          return redirect()->intended('/siswa_depan');
-        } else {
-          return redirect('/')->with('message','Mohon Maaf, NISN anda tidak terdaftar di database kami');
-        }
     }
 
     public function depan()
     {
-        return view('siswa.index');
-    }
-
-    public function logout()
-    {
-      if (Auth::guard('siswa')->check()) {
-        Auth::guard('siswa')->logout();
-      } 
-      return redirect('/');
-  
+        return view('mybel.index');
     }
 }

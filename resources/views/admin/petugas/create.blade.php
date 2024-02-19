@@ -1,13 +1,13 @@
 @extends('admin/layout.master')
 
-@section('title','Petugas')
-@section('title2','tambah')
+@section('title','Admin')
+@section('title2','tambah-admin')
 @section('petugas','active')
 @section('konten')
 
 <div class="card">
   <div class="card-header">
-    <h4>Tambah petugas</h4>
+    <h4>Tambah Admin</h4>
   </div>
   <div class="card-body">
     <form action="{{ route('petugas.store') }}" method="POST">
@@ -18,7 +18,7 @@
         <div class="col-md-6">
             <div class="form-group">
               <label class="text-dark">
-                Nama petugas
+                Nama Admin
               </label>
               <input type="text" name="nama" value="{{old('nama')}}" class="form-control" autocomplete="off">  
             </div>
@@ -52,7 +52,6 @@
               </label>
               <select name="level" class="form-control">
                   <option value="admin" class="form-control">Admin</option>
-                  <option value="petugas" class="form-control">Petugas</option>
               </select>
             </div>
           </div>

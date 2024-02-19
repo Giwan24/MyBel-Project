@@ -1,51 +1,51 @@
 @extends('admin/layout.master')
 
-@section('title','Siswa')
-@section('title2','edit')
-@section('siswa','active')
+@section('title','Product MyBel')
+@section('title2','edit-produk')
+@section('mybel','active')
 @section('konten')
 
 
 
 <div class="card">
   <div class="card-header">
-    <h4>Edit siswa</h4>
+    <h4>Edit Produk</h4>
   </div>
   <div class="card-body">
-    <form action="{{ route('siswa.update',$data->nisn) }}" method="POST">
+    <form action="{{ route('mybel.update',$data->id) }}" method="POST">
     @method('PATCH')
     @csrf
     <div class="row">
 
-        {{-- nisn --}}
+        {{-- id product --}}
         <div class="col-md-6">
             <div class="form-group">
               <label class="text-dark">
-                NISN
+                ID Produk
               </label>
-              <input type="text" name="nisn"
-              @if (old('nisn'))
-                  value="{{ old('nisn') }}"
+              <input type="text" name="id_product"
+              @if (old('id_product'))
+                  value="{{ old('id_product') }}"
                   @else
-                  value="{{ $data->nisn }}"
+                  value="{{ $data->id_product }}"
               @endif
                class="form-control" autocomplete="off" readonly="readonly">  
             </div>
           </div>
 
-          {{-- nis --}}
+          {{-- Brand --}}
           <div class="col-md-6">
             <div class="form-group">
               <label class="text-dark">
-                NIS
+                Brand
               </label>
-              <input type="text" name="nis"
-              @if (old('nis'))
-                  value="{{ old('nis') }}"
+              <input type="text" name="brand"
+              @if (old('brand'))
+                  value="{{ old('brand') }}"
               @else
-                  value="{{ $data->nis }}"
+                  value="{{ $data->brand }}"
               @endif
-               class="form-control" autocomplete="off" readonly="readonly">  
+               class="form-control" autocomplete="off">  
             </div>
           </div>
 
@@ -54,13 +54,13 @@
       <div class="col-md-6">
           <div class="form-group">
           <label class="text-dark">
-              Nama siswa 
+              Nama Produk
             </label>
-            <input type="text" name="nama"
-            @if (old('nama'))
-                value="{{ old('nama') }}"
+            <input type="text" name="nama_produk"
+            @if (old('nama_produk'))
+                value="{{ old('nama_produk') }}"
             @else
-                value="{{ $data->nama }}"
+                value="{{ $data->nama_produk }}"
             @endif
             class="form-control" autocomplete="off">  
           </div>
@@ -69,12 +69,13 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label class="text-dark">
-                  Nama kelas
+                  Jenis
                 </label>
-                <select name="kelas" class="form-control">
-                    @foreach ($kelas as $item)
-                    <option value="{{ $item->id_kelas }}">{{ $item->nama_kelas }}</option>
-                    @endforeach
+                <select name="jenis" value="{{old('jenis')}}" id="jenis" class="form-control">
+                    <option>Lemari</option>
+                    <option>Meja</option>
+                    <option>Kursi</option>
+                    <option>Rak</option>
                 </select>
             </div>
         </div>
@@ -82,13 +83,13 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label class="text-dark">
-                  Alamat
+                  Material
                 </label>
-                <input type="text" name="alamat" 
-                @if (old('alamat'))
-                value="{{ old('alamat') }}"
+                <input type="text" name="material" 
+                @if (old('material'))
+                value="{{ old('material') }}"
                 @else
-                value="{{ $data->alamat }}"
+                value="{{ $data->material }}"
                 @endif
                 class="form-control" autocomplete="off">
             </div>
@@ -97,13 +98,43 @@
         <div class="col-md-6">
             <div class="form-group">
                   <label class="text-dark">
-                    No telp
+                    Dimensi
                   </label>
-                  <input type="text" name="notelp"
-                  @if (old('notelp'))
-                      value="{{ old('notelp') }}"
+                  <input type="text" name="dimensi"
+                  @if (old('dimensi'))
+                      value="{{ old('dimensi') }}"
                   @else
-                      value="{{ $data->no_telp }}"
+                      value="{{ $data->dimensi }}"
+                  @endif
+                  class="form-control" autocomplete="off" placeholder="Example : 123 x 123 x 123 CM">        
+            </div>
+        </div>  
+
+        <div class="col-md-6">
+            <div class="form-group">
+                  <label class="text-dark">
+                    Warna Tersedia
+                  </label>
+                  <input type="text" name="warna_tersedia"
+                  @if (old('warna_tersedia'))
+                      value="{{ old('warna_tersedia') }}"
+                  @else
+                      value="{{ $data->warna_tersedia }}"
+                  @endif
+                  class="form-control" autocomplete="off">        
+            </div>
+        </div>  
+
+        <div class="col-md-6">
+            <div class="form-group">
+                  <label class="text-dark">
+                    Harga (Rp)
+                  </label>
+                  <input type="number" name="harga"
+                  @if (old('harga'))
+                      value="{{ old('harga') }}"
+                  @else
+                      value="{{ $data->harga }}"
                   @endif
                   class="form-control" autocomplete="off">        
             </div>
@@ -112,7 +143,7 @@
     </div>    
       <div class="card-footer text-right">
         <button class="btn btn-primary mr-1" type="submit">Submit</button>
-        <a href="/siswa" class="btn btn-secondary" type="reset">Cancel</a>
+        <a href="/mybel" class="btn btn-secondary" type="reset">Cancel</a>
       </div>
     </form>
   </div>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Admin - @yield('title')</title>
+  <title>MyBel Admin - @yield('title')</title>
 
   <!-- General CSS Files -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="../node_modules/ionicons201/css/ionicons.min.css">
   <!-- Template CSS -->
   
-  <link rel="icon" href="{{ asset('assets/img/logosmk.png') }}">
+  <link rel="icon" href="{{ asset('assets/images/mybel.png') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/font.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/style.css')}}">
   <link rel="stylesheet" href="{{ asset('assets/css/style2.css')}}">
@@ -23,10 +23,10 @@
   @yield('page-styles')
 </head>
 
-<body>
+<body style="background-image: url('assets/images/landingpage2.jpg'); ">
   <div id="app">
     <div class="main-wrapper">
-      <div class="navbar-bg"></div>
+      <div class="navbar-bg" style="background-color:#5d7b71;"></div>
       @include('admin/layout.header')
       @include('admin/layout.sidebar')
 
@@ -46,12 +46,9 @@
           @yield('konten')
         </section>
       </div>
-      <footer class="main-footer">
-        <div class="footer-left">
-          <b>Copyright &copy; 2023 <div class="bullet"></div> Giwan Purnama</b>
-        </div>
-        <div class="footer-right text-white"  style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); background-color:red;">
-          <b>&nbsp&nbsp&nbsp!!JANGAN PLAGIAT</b> : Projek <b>Giwan</b> khusus Ujikom XII RPL SMK Prakarya Internasional 2023<b>!!&nbsp&nbsp&nbsp </b>
+      <footer class="main-footer" style="border: none;">
+        <div class="footer-right" style="color:white;">
+          <b>Copyright &copy; 2024 <div class="bullet"></div> MyBel</b>
         </div>
       </footer>
     </div>

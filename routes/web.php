@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\MyBel\ProdukController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +15,8 @@ use App\Http\Controllers\InvoiceController;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [ProdukController::class, 'home_index']);
+Route::get('/marketplace', [ProdukController::class, 'marketplace']);
 
 
 Route::get('/login', 'LoginController@getLogin')->name('login');
@@ -30,8 +30,7 @@ Route::group(['middleware' => 'auth:admin'], function(){
     Route::get('/dashboard', 'DashboardController@index');
 
     //siswa
-    Route::resource('siswa', 'SiswaController');
-    Route::get('siswa_history/{id}', 'SiswaController@History')->name('siswa.history');
+    Route::resource('mybel', 'MyBel\ProdukController');
     //Kelas
     Route::resource('kelas', 'KelasController');
 
@@ -61,7 +60,6 @@ Route::group(['middleware' => 'auth:admin'], function(){
 // siswa
 Route::group(['middleware'=>'auth:siswa'], function(){
     Route::get('siswa_depan','SiswaController@depan');
-    Route::get('siswa_history\{id}','SiswaController@historysiswa')->name('siswa.his');
 });
 
 

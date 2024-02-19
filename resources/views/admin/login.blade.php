@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Login &mdash; SPP</title>
+  <title>Login &mdash; Admin MyBel</title>
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="{{ asset('node_modules/bootstrap-social/bootstrap-social.css')}}">
 
   <!-- Template CSS -->
-  <link rel="icon" href="{{ asset('assets/img/logosmk.png') }}">
+  <link rel="icon" href="{{ asset('assets/images/mybel.png') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/style.css')}}">
   <link rel="stylesheet" href="{{ asset('assets/css/components.css')}}">
 
@@ -30,9 +30,9 @@
         <div class="row">
           <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
             <div class="login-brand">
-              <img src="../assets/img/logosmk.png" alt="logo" width="100" class="shadow-sm rounded-circle" style="margin-bottom: 15px;">
+              <img src="../assets/images/mybel.png" alt="logo" width="100" style="margin-bottom: 15px; border-radius: 10px, 10px, 10px, 10px;">
               <br>
-              <h4 style="color:white;">SMK Prakarya Internasional</h4>
+              <h4 style="color:white;">MYBEL</h4>
             </div>
             <center>
             <h2 style="color:white;">Selamat Datang!</h2>
@@ -40,7 +40,7 @@
             <br>
             <div class="card card-success" style="border-radius: 20px;">
               <br>
-              <div class="card-header"><h2 class="text-success">Login Admin/Petugas</h2></div>
+              <div class="card-header"><h2>Login <br>Admin MyBel</h2></div>
 
               <div class="card-body">
                 <form method="POST" action="/proseslogin" class="needs-validation" novalidate="">
@@ -64,7 +64,7 @@
                   </div>
 
                   @if(session('message'))
-                  <div class="alert alert-success alert-dismissible show fade">
+                  <div class="alert alert-danger alert-dismissible show fade">
                     <div class="alert-body">
                       <button class="close" data-dismiss="alert">
                         <span>×</span>
@@ -75,7 +75,7 @@
                   @endif
 
                   <div class="form-group">
-                    <button type="submit" class="btn btn-success btn-lg btn-block" tabindex="4">
+                    <button type="submit" class="btn btn-dark btn-lg btn-block" tabindex="4">
                       <h5>Masuk</h5>
                     </button>
                   </div>
@@ -85,7 +85,7 @@
               </div>
             </div>
             <div class="simple-footer" style="color: white;">
-              Copyright &copy; Giwan Purnama 2023
+              Copyright &copy; MyBel 2024
             </div>
           </div>
         </div>

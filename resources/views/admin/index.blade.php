@@ -738,7 +738,7 @@
           <strong>MyBel Heaven</strong>
         </h1>
         <p class="mbr-fonts-style mbr-text mbr-white mb-4 display-7">Masuki dunia kemewahan dan kenyamanan dengan furniture dan mebeul indah <b><u>MyBel</u></b>.</p>
-        <div class="mbr-section-btn"><a class="btn btn-white-outline display-7" href="https://wa.me/6285872054928?text=Ini giwan tes website">Contact Us For More</a></div>
+        <div class="mbr-section-btn"><a class="btn btn-white-outline display-7" href="/marketplace">Contact Us For More</a></div>
       </div>
     </div>
   </div>
@@ -1349,11 +1349,6 @@
         text-align: left;
     }
 
-    .cid-u42fGihSDw .mbr-text,
-    .cid-u42fGihSDw .item .mbr-section-btn {
-        text-align: center;
-    }
-
     .cid-u42fGihSDw .content-head {
         max-width: 800px;
     }
@@ -1370,31 +1365,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="item features-image col-12 col-md-6 col-lg-4">
-                <div class="item-wrapper">
-                    <div class="item-img">
-                        <img src="assets/images/lemari.jpg">
-                    </div>
-                    <div class="item-content">
-                        <h5 class="item-title mbr-fonts-style display-5">
-                            <strong> LHD NAIRA | Lemari Hias</strong>
-                        </h5>
-                        <h6 class="item-subtitle mbr-fonts-style display-7">
-                            <b style="color:#3b6642;">Rp 942.500</b>
-                        </h6>
-                        <p class="mbr-text mbr-fonts-style display-7">
-                          Brand : Topan<br>
-                          Material : Particle Board<br>
-                          Dimension : 90 x 39,5 x 199 CM <br>
-                          ______________________________<br>
-                          Avalailable Colors : <b style="color:#57401c;"><i>french walnut</i></b>
-                        </p>
-                        <div class="mbr-section-btn item-footer"><a href="https://wa.me/6285872054928?text=Halo, MyBel! Saya ingin memesan produk *LHD NAIRA | Lemari Hias*"
-                                class="btn item-btn btn-primary display-7">Pesan</a></div>
-                    </div>
-
-                </div>
-            </div>
+        @foreach ($data as $item)
             <div class="item features-image col-12 col-md-6 col-lg-4">
                 <div class="item-wrapper">
                     <div class="item-img">
@@ -1402,47 +1373,31 @@
                     </div>
                     <div class="item-content">
                       <h5 class="item-title mbr-fonts-style display-5">
-                          <strong> LHD NAIRA | Lemari Hias</strong>
+                          <strong> {{ $item->brand }} | {{ $item->nama_produk }}</strong>
                       </h5>
                       <h6 class="item-subtitle mbr-fonts-style display-7">
-                          <b style="color:#3b6642;">Rp 942.500</b>
+                          <b style="color:#3b6642;">Rp {{ $item->harga }}</b>
                       </h6>
                       <p class="mbr-text mbr-fonts-style display-7">
-                        Brand : Topan<br>
-                        Material : Particle Board<br>
-                        Dimension : 90 x 39,5 x 199 CM <br>
+                        Jenis : {{ $item->jenis }}<br>
+                        Brand : {{ $item->brand }}<br>
+                        Material : {{ $item->material }}<br>
+                        Dimension : {{ $item->dimensi }} <br>
                         ______________________________<br>
-                        Avalailable Colors : <b style="color:#57401c;"><i>french walnut</i></b>
+                        Avalailable Colors : <b><i>{{ $item->warna_tersedia }}</i></b>
                       </p>
-                      <div class="mbr-section-btn item-footer"><a href="https://wa.me/6285872054928?text=Halo, MyBel! Saya ingin memesan produk *LHD NAIRA | Lemari Hias*"
-                              class="btn item-btn btn-primary display-7">Pesan</a></div>
+                      <div class="mbr-section-btn item-footer">
+                        <a 
+                          href="https://wa.me/6285872054928?text=Halo, MyBel! Saya ingin memesan produk : *ID : {{ $item->id_product }} | {{ $item->brand }} | {{ $item->nama_produk }}*"
+                          class="btn item-btn btn-primary display-7">
+                          Order
+                        </a>
+                      </div>
                   </div>
                 </div>
             </div>
-            <div class="item features-image col-12 col-md-6 col-lg-4">
-                <div class="item-wrapper">
-                    <div class="item-img">
-                      <img src="assets/images/lemari.jpg">
-                    </div>
-                    <div class="item-content">
-                      <h5 class="item-title mbr-fonts-style display-5">
-                          <strong> LHD NAIRA | Lemari Hias</strong>
-                      </h5>
-                      <h6 class="item-subtitle mbr-fonts-style display-7">
-                          <b style="color:#3b6642;">Rp 942.500</b>
-                      </h6>
-                      <p class="mbr-text mbr-fonts-style display-7">
-                        Brand : Topan<br>
-                        Material : Particle Board<br>
-                        Dimension : 90 x 39,5 x 199 CM <br>
-                        ______________________________<br>
-                        Avalailable Colors : <b style="color:#57401c;"><i>french walnut</i></b>
-                      </p>
-                      <div class="mbr-section-btn item-footer"><a href="https://wa.me/6285872054928?text=Halo, MyBel! Saya ingin memesan produk *LHD NAIRA | Lemari Hias*"
-                              class="btn item-btn btn-primary display-7">Pesan</a></div>
-                  </div>
-                </div>
-            </div>
+            @endforeach
+            {{$data->links()}}
         </div>
     </div>
 </section>
